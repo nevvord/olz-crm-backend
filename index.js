@@ -3,7 +3,7 @@ const   db              =   require('./db/index')()
 const   cors            =   require('cors')
 // const   multer          =   require('./plugins/multer')
 //==== Middleware =====
-// const   verifyToken     =   require('./middleware/veryify')
+ const   verifyToken     =   require('./middleware/veryify')
 //===== Glogal CFG =====
 global.db       = db
 global.express  = express
@@ -23,40 +23,18 @@ app.use(cors({
     origin: true,
     optionsSuccessStatus: 200
 }))
-// app.use(cookieparser())
 
-//===== Routes =====
-// const auth = require('./router/auth')
-// const api = require('./router/api')
-// const store = require('./router/store')
-// const crm = require('./router/crm')
+const auth =  require('./routes/auth')
+const api = require('./routes/api')
 
-// app.get('/', (req, res) => {
-//     res.send({
-//         api: "worked"
-//     })
-// })
-// app.use('/auth', auth.router)
-
-const auth =  require('./routes/auth/')
-
-app.post('/zvonilo/addcall', (req, res)=> {
-    const contentJson = JSON.stringify(req.body)
-    
-    db.Callers.create({contentJson} , error => {
-        if(error){
-            res.status(500).req({msg: "Ошибка сервера. Неудалось сохранить запроз."})
-        }else{
-            res.send({msg: "Запрос успешно сохранен!"})
-        }
-    })
-})
 app.get('/zvonilo/getcalls', (req, res)=> {
     db.Callers.find({}, (error, resultat) => {
         if (error) return res.status(500).send({msg: "Ошибка 500. Не смог найти новые звонки и сделал это с ошибкой."})
         return res.send({calls: resultat})
     })
 })
+
+app.post('/api', api.router)
 app.use('/auth', auth.router)
 // app.use('/store', verifyToken , store.router)
 // app.use('/crm' , crm.router)

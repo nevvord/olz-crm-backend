@@ -6,12 +6,11 @@ conn.on('error',        (err) => console.log('Mongoose connection error to test2
 conn.on('disconnected', ()    => console.log('Mongoose connection disconnected test2 db'));
 
 module.exports = () => {
-  console.log('Returning db...');
+  console.log('Returning db...')
 
   return {
     conn,
     Callers : require('./models/callers.js')(mongoose, conn),
-    Comment : require('./models/comment.js')(mongoose, conn)
-  };
-
-};
+    BusketCallers : require('./models/basketCallers')(mongoose, conn)
+  }
+}

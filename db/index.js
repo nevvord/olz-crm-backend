@@ -1,16 +1,19 @@
 const mongoose      = require('mongoose');
-const conn          = mongoose.createConnection('mongodb://localhost/test-backend-olz', { useNewUrlParser: true, useUnifiedTopology: true });
+const connection    = mongoose.createConnection('mongodb://localhost/test-backend-olz', { useNewUrlParser: true, useUnifiedTopology: true });
 
-conn.on('connected',    ()    => console.log('Mongoose connection open to test2 db'));
-conn.on('error',        (err) => console.log('Mongoose connection error to test2 db: ' + err));
-conn.on('disconnected', ()    => console.log('Mongoose connection disconnected test2 db'));
+connection.on('connected',    ()    => console.log('Mongoose connection open to test2 db'));
+connection.on('error',        (err) => console.log('Mongoose connection error to test2 db: ' + err));
+connection.on('disconnected', ()    => console.log('Mongoose connection disconnected test2 db'));
 
 module.exports = () => {
   console.log('Returning db...')
 
   return {
-    conn,
-    Callers : require('./models/callers.js')(mongoose, conn),
-    BusketCallers : require('./models/basketCallers')(mongoose, conn)
+    connection,
+    Callers : require('./models/callers.js')(mongoose, connection),
+    BasketCallers : require('./models/basketCallers')(mongoose, connection),
+    Users: require('./models/Users')(mongoose, connection),
+    Categories: require('./models/Categories')(mongoose, connection),
+    SubCategories: require('./models/SubCategories')(mongoose, connection)
   }
 }

@@ -24,11 +24,15 @@ app.use(cors({
     optionsSuccessStatus: 200
 }))
 
-const auth =  require('./routes/auth')
+const Users =  require('./routes/Users')
 const zvonilo = require('./routes/zvonilo')
+const Admin = require('./routes/Administartion')
+const OLZ = require('./routes/OLZ')
 
 app.use('/zvonilo', zvonilo.router)
-app.use('/auth', auth.router)
+app.use('/user', Users.router)
+app.use('/administration', Admin.router)
+app.use('/olz', OLZ.router)
 
 //==== Listen Requests =====
 app.listen(serverConfig.port, () => console.log(`Server has been running in ${serverConfig.host}:${serverConfig.port}`))

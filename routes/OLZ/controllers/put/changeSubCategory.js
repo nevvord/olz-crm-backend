@@ -9,6 +9,11 @@ module.exports = async (req, res) => {
   subCategory.characteristics = characteristics
   subCategory.confirmed = false
 
+  const category = await db.Categories.findOne({_id: subCategory.category})
+  category.confirmed = false
+  category.save()
+
+
   subCategory.save().then(response => {
     res.send({msg: "Подкатегория измененна успешно.", subCategory: response})
   }).catch(error => {

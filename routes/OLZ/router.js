@@ -10,5 +10,6 @@ router
   .put('/categories/change/category/:id', controlles.changeCategory)
   .put('/categories/change/subcategory/:id', controlles.changeSubcategory)
   .put('/categories/confirm/subcategory/:id', controlles.confirmSubCategory)
+  .put('/categories/confirm/category/:id', controlles.confirmCategory)
 
 module.exports = router

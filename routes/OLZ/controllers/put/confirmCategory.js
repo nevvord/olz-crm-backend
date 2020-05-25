@@ -3,16 +3,18 @@ const axios = require('axios')
 module.exports = async (req, res) => {
   const _id = req.params.id
 
+
+
   if (req.userMode !== 0) return res.status(401).send({msg: "Данная функция только для супер админа"})
   
-  const subCategory = await db.SubCategories.findOne({_id})
-  subCategory.confirmed = true
+  const category = await db.Categories.findOne({_id})
+  category.confirmed = true
   
-  if (!subCategory.created) {
-    axios.post(`${process.env.OLZ_BE_URL}/sa/subCategory/add`, {subCategory, verifykey: process.env.VERIFY_KEY}).then(result => {
-      subCategory.created = true
-      subCategory.save().then(response => {
-        res.send({msg: "Подкатегория подтвержденна", subCategory: response})
+  if (!category.created) {
+    axios.post(`${process.env.OLZ_BE_URL}/sa/category/add`, {category, verifykey: process.env.VERIFY_KEY}).then(result => {
+      category.created = true
+      category.save().then(response => {
+        res.send({msg: "Подкатегория подтвержденна", category: response})
       }).catch(error => {
         res.status(500).send({msg: "Неудалось подтвердить подкатегорию.", error})
       })
@@ -21,10 +23,10 @@ module.exports = async (req, res) => {
     })
   }
 
-  if (subCategory.created) {    
-    axios.put(`${process.env.OLZ_BE_URL}/sa/subcategory/change/${subCategory._id}`, {subCategory, verifykey: process.env.VERIFY_KEY}).then(result => {
-      subCategory.save().then(response => {
-        res.send({msg: "Подкатегория подтвержденна", subCategory: response})
+  if (category.created) {
+    axios.put(`${process.env.OLZ_BE_URL}/sa/category/change/${category._id}`, {category, verifykey: process.env.VERIFY_KEY}).then(result => {
+      category.save().then(response => {
+        res.send({msg: "Подкатегория подтвержденна", category: response})
       }).catch(error => {
         res.status(500).send({msg: "Неудалось подтвердить подкатегорию.", error})
       })
